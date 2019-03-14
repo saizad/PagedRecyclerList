@@ -35,7 +35,7 @@ public abstract class ItemKeyedList<M, ItemView extends View & AppListAdapter.Ap
   }
 
   @Override
-  public abstract void dataCallBack(Key next, @NonNull Action1<List<M>> callBack);
+  public abstract void dataCallBack(Key next, @NonNull CallAction<List<M>> callBack);
 
   @Override
   public abstract Key getKey(@NonNull M activityType);

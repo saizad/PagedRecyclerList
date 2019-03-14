@@ -7,10 +7,8 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
-import java.util.List;
-
-public abstract class PagedKeyedList<M, I extends View & AppListAdapter.AppAdapterItem<M>> extends ListSelection<M, I> implements
-    PageKeyedListDataSource.PageKeyedListDataSourceListener<Integer, M> {
+public abstract class PagedKeyedList<M, I extends View & AppListAdapter.AppAdapterItem<M>, Key> extends ListSelection<M, I> implements
+        PageKeyedListDataSource.PageKeyedListDataSourceListener<Key, M> {
 
   private LifecycleOwner lifecycleOwner;
 
@@ -26,7 +24,7 @@ public abstract class PagedKeyedList<M, I extends View & AppListAdapter.AppAdapt
     super(context, attrs, defStyle);
   }
 
-  public void recreateList() {
+  public void createList() {
     getListAdapter().setPageKeyedDataSource(lifecycleOwner, this);
   }
 
@@ -35,5 +33,5 @@ public abstract class PagedKeyedList<M, I extends View & AppListAdapter.AppAdapt
   }
 
   @Override
-  public abstract void getData(Integer next, @NonNull Action1<PageDataModel<Integer, List<M>>> callBack);
+  public abstract void getData(Key next, @NonNull CallAction<PageKeyedListDataSource.KeyDataCallback<M, Key>> callBack) ;
 }

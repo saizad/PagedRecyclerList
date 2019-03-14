@@ -15,7 +15,7 @@ public class Utils {
     });
   }
 
-  public static void writeStreamToFile(@NonNull InputStream input, @NonNull File file, @NonNull Action1<Long> writtenAction) throws IOException {
+  public static void writeStreamToFile(@NonNull InputStream input, @NonNull File file, @NonNull CallAction<Long> writtenAction) throws IOException {
     OutputStream output = null;
     try {
       output = new FileOutputStream(file);

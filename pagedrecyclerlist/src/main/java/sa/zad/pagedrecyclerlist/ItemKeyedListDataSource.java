@@ -28,7 +28,7 @@ public class ItemKeyedListDataSource<Key,Item> extends ItemKeyedDataSource<Key, 
   @Override
   public void loadBefore(@NonNull LoadParams<Key> params,
       @NonNull LoadCallback<Item> callback) {
-
+//    listener.dataCallBack(params.key, callback::onResult);
   }
 
   @NonNull
@@ -38,7 +38,7 @@ public class ItemKeyedListDataSource<Key,Item> extends ItemKeyedDataSource<Key, 
   }
 
   public interface ItemKeyedListDataSourceListener<Key, Item> {
-    void dataCallBack(Key next, @NonNull Action1<List<Item>> callBack);
+    void dataCallBack(Key next, @NonNull CallAction<List<Item>> callBack);
     Key getKey(@NonNull Item item);
   }
 }

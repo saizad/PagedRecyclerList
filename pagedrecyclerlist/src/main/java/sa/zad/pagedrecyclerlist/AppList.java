@@ -1,6 +1,7 @@
 package sa.zad.pagedrecyclerlist;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -42,7 +43,7 @@ public class AppList<T, I extends View & AppListAdapter.AppAdapterItem<T>> exten
         setListAdapter(new AppListAdapter<>(this));
     }
 
-    public void setAdapterListener(AppListAdapter.RecyclerViewAdapterListener<T, I> adapterListener) {
+    public void setAdapterListener(@NonNull AppListAdapter.RecyclerViewAdapterListener<T, I> adapterListener) {
         this.mAdapterListener = adapterListener;
     }
 

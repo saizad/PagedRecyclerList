@@ -56,8 +56,8 @@ public class AppListAdapter<Item, LV extends View & AppListAdapter.AppAdapterIte
   private <Key> void xx(@NonNull LifecycleOwner lifecycleOwner,
       DataSource.Factory<Key, Item> dataSource) {
     setItems(new ArrayList<>());
-    PagedList.Config config = new PagedList.Config.Builder().setPageSize(10)
-        .setInitialLoadSizeHint(10)
+    PagedList.Config config = new PagedList.Config.Builder().setPageSize(200)
+        .setInitialLoadSizeHint(200)
         .setEnablePlaceholders(false)
         .build();
     LiveData<PagedList<Item>> liveData = new LivePagedListBuilder<>(dataSource, config).build();
