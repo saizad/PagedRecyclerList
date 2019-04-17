@@ -1,12 +1,12 @@
 package sa.zad.pagedrecyclerlistexample;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 import sa.zad.pagedrecyclerlist.AppListAdapter;
 import sa.zad.pagedrecyclerlistexample.models.Items;
 
-public class ItemsTitleView extends android.support.v7.widget.AppCompatTextView implements AppListAdapter.AppAdapterItem<Items> {
+public class ItemsTitleView extends androidx.appcompat.widget.AppCompatTextView implements AppListAdapter.AppAdapterItem<Items> {
 
   public ItemsTitleView(Context context) {
     this (context, null);

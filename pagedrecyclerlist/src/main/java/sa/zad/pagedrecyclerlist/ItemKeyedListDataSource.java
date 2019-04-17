@@ -1,7 +1,7 @@
 package sa.zad.pagedrecyclerlist;
 
-import android.arch.paging.ItemKeyedDataSource;
-import android.support.annotation.NonNull;
+import androidx.paging.ItemKeyedDataSource;
+import androidx.annotation.NonNull;
 
 import java.util.List;
 
