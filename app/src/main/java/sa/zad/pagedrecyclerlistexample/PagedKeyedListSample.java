@@ -5,14 +5,10 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
-import retrofit2.Response;
-import rx.functions.Action1;
 import sa.zad.pagedrecyclerlist.CallAction;
 import sa.zad.pagedrecyclerlist.PageKeyedListDataSource;
 import sa.zad.pagedrecyclerlist.PagedKeyedList;
 import sa.zad.pagedrecyclerlistexample.models.Items;
-import sa.zad.pagedrecyclerlistexample.models.RedditPagedModel;
 
 import java.util.List;
 
@@ -41,12 +37,6 @@ public class PagedKeyedListSample extends PagedKeyedList<Items, ItemsTitleView, 
   @Override
   public void getData(String next, @NonNull CallAction<PageKeyedListDataSource.KeyDataCallback<Items, String>> callBack) {
       apiService.list("https://www.reddit.com/r/all.json?limit=20&after="+next)
-              .successResponse(new Action1<Response<RedditPagedModel>>() {
-                @Override
-                public void call(Response<RedditPagedModel> redditPagedModelResponse) {
-                  Log.d("dsafadfs", redditPagedModelResponse.raw().request().url().toString());
-                }
-              })
               .subscribe(redditPagedModel -> {
                 callBack.call(new PageKeyedListDataSource.KeyDataCallback<>(redditPagedModel.data.children, redditPagedModel.data.before, redditPagedModel.data.after));
               });

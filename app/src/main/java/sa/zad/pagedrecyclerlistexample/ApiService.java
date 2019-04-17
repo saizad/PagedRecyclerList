@@ -15,7 +15,7 @@ public interface ApiService {
   @GET
   NeverErrorObservable<RedditPagedModel> list(@Url String url);
 
-  @GET(value = "http://192.168.0.102:8000/api/events/activities/")
+  @GET(value = "http://192.168.0.67:8000/api/events/activities/")
   NeverErrorObservable<DataModel<List<ActivityType>>> findActivities(
           @Query("search") String search, @Query("after") String after, @Query("before") String before);
 }

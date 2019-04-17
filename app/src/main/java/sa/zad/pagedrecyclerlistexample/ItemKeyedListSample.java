@@ -5,7 +5,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import sa.zad.pagedrecyclerlist.CallAction;
 import sa.zad.pagedrecyclerlist.ItemKeyedList;
 import sa.zad.pagedrecyclerlistexample.models.ActivityType;
@@ -36,14 +35,7 @@ public class ItemKeyedListSample extends ItemKeyedList<ActivityType, ActivitiesV
 
   @Override
   public void dataCallBack(String next, @NonNull CallAction<List<ActivityType>> callBack) {
-
     apiService.findActivities("a",next, null)
-            .failedResponse(dataModelResponse -> {
-              Log.d("dsafasdf", "FailedResponse: " + dataModelResponse.toString());
-            })
-            .exception(throwable -> {
-              Log.d("dsafasdf", "Error: " + throwable.getMessage());
-            })
             .map(listDataModel -> listDataModel.data)
             .subscribe(callBack::call);
   }
