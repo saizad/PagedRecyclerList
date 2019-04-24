@@ -1,17 +1,17 @@
 package sa.zad.pagedrecyclerlist;
 
+import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.paging.DataSource;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 import androidx.paging.PagedListAdapter;
-import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DiffUtil;
-import android.view.View;
-import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ import java.util.List;
  */
 
 public class AppListAdapter<Item, LV extends View & AppListAdapter.AppAdapterItem<Item>>
-    extends PagedListAdapter<Item, AppRecyclerViewHolder<Item, LV>> {
+        extends PagedListAdapter<Item, AppRecyclerViewHolder<Item, LV>> {
 
   private List<Item> mItems = new ArrayList<>();
   private RecyclerViewAdapterListener<Item, LV> mRecyclerViewAdapterListener;
@@ -42,24 +42,34 @@ public class AppListAdapter<Item, LV extends View & AppListAdapter.AppAdapterIte
   }
 
   public <Key> void setPageKeyedDataSource(@NonNull LifecycleOwner lifecycleOwner,
-      @NonNull final PageKeyedListDataSource.PageKeyedListDataSourceListener<Key, Item> listener) {
+                                           @NonNull final PageKeyedListDataSource.PageKeyedListDataSourceListener<Key, Item> listener) {
+    setPageKeyedDataSource(lifecycleOwner, listener, 100, 100);
+  }
+
+  public <Key> void setPageKeyedDataSource(@NonNull LifecycleOwner lifecycleOwner,
+                                           @NonNull final PageKeyedListDataSource.PageKeyedListDataSourceListener<Key, Item> listener, int initialItems, int pageSize) {
     ListDataSourceFactory<Key, Item> dataSourceFactory = new ListDataSourceFactory<>(listener);
-    xx(lifecycleOwner, dataSourceFactory);
+    config(lifecycleOwner, dataSourceFactory, initialItems, pageSize);
   }
 
   public <Key> void setItemKeyedDataSource(@NonNull LifecycleOwner lifecycleOwner,
-      @NonNull final ItemKeyedListDataSource.ItemKeyedListDataSourceListener<Key, Item> listener) {
-    ListDataSourceFactory<Key, Item> dataSourceFactory = new ListDataSourceFactory<>(listener);
-    xx(lifecycleOwner, dataSourceFactory);
+                                           @NonNull final ItemKeyedListDataSource.ItemKeyedListDataSourceListener<Key, Item> listener) {
+    setItemKeyedDataSource(lifecycleOwner, listener, 100, 100);
   }
 
-  private <Key> void xx(@NonNull LifecycleOwner lifecycleOwner,
-      DataSource.Factory<Key, Item> dataSource) {
+  public <Key> void setItemKeyedDataSource(@NonNull LifecycleOwner lifecycleOwner,
+                                           @NonNull final ItemKeyedListDataSource.ItemKeyedListDataSourceListener<Key, Item> listener, int initialItems, int pageSize) {
+    ListDataSourceFactory<Key, Item> dataSourceFactory = new ListDataSourceFactory<>(listener);
+    config(lifecycleOwner, dataSourceFactory, initialItems, pageSize);
+  }
+
+  private <Key> void config(@NonNull LifecycleOwner lifecycleOwner,
+                            DataSource.Factory<Key, Item> dataSource, int initialItems, int pageSize) {
     setItems(new ArrayList<>());
-    PagedList.Config config = new PagedList.Config.Builder().setPageSize(200)
-        .setInitialLoadSizeHint(200)
-        .setEnablePlaceholders(false)
-        .build();
+    PagedList.Config config = new PagedList.Config.Builder().setPageSize(pageSize)
+            .setInitialLoadSizeHint(initialItems)
+            .setEnablePlaceholders(false)
+            .build();
     LiveData<PagedList<Item>> liveData = new LivePagedListBuilder<>(dataSource, config).build();
     liveData.observe(lifecycleOwner, this::submitList);
   }
@@ -68,15 +78,15 @@ public class AppListAdapter<Item, LV extends View & AppListAdapter.AppAdapterIte
   @NonNull
   @Override
   public AppRecyclerViewHolder<Item, LV> onCreateViewHolder(@NonNull ViewGroup parent,
-      int viewType) {
+                                                            int viewType) {
     return new AppRecyclerViewHolder<>(
-        mRecyclerViewAdapterListener.getItemView(parent.getContext(), viewType));
+            mRecyclerViewAdapterListener.getItemView(parent.getContext(), viewType));
   }
 
   @Override
   public void onBindViewHolder(@NonNull AppRecyclerViewHolder<Item, LV> holder, int position) {
     if (!mRecyclerViewAdapterListener.onBindItemView(holder.getItemView(), getItem(position),
-        position)) {
+            position)) {
       holder.appAdapterItem.bind(getItem(position));
     }
   }
@@ -98,7 +108,9 @@ public class AppListAdapter<Item, LV extends View & AppListAdapter.AppAdapterIte
   @Nullable
   @Override
   protected Item getItem(int position) {
-    if (isNotPagedList()) { return mItems.get(position); }
+    if (isNotPagedList()) {
+      return mItems.get(position);
+    }
     return super.getItem(position);
   }
 
@@ -165,7 +177,7 @@ public class AppListAdapter<Item, LV extends View & AppListAdapter.AppAdapterIte
 
     /**
      * Return the view type of the item at pagePosition for the purposes of view recycling.
-     *
+     * <p>
      * The default implementation of this method returns 0, making the assumption of a single view
      * type for the adapter. Unlike ListView adapters, types need not be contiguous. Consider using
      * id resources to uniquely identify item view types.
@@ -178,8 +190,11 @@ public class AppListAdapter<Item, LV extends View & AppListAdapter.AppAdapterIte
 
   public interface AppAdapterItem<Item> {
     void bind(Item item);
+
     void hideDivider(boolean hide);
+
     Item getItem();
+
     void select(boolean select);
   }
 }
