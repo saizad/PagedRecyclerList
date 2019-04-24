@@ -1,7 +1,7 @@
 package sa.zad.pagedrecyclerlistexample.models;
 
-import android.support.annotation.IntDef;
-import android.support.annotation.StringDef;
+import androidx.annotation.IntDef;
+import androidx.annotation.StringDef;
 import com.google.gson.annotations.SerializedName;
 
 import java.lang.annotation.Retention;

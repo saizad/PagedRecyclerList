@@ -1,9 +1,9 @@
 package sa.zad.pagedrecyclerlistexample;
 
-import android.arch.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LifecycleOwner;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 import sa.zad.pagedrecyclerlist.CallAction;
 import sa.zad.pagedrecyclerlist.PageKeyedListDataSource;

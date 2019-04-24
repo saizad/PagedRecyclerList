@@ -1,8 +1,8 @@
 package sa.zad.pagedrecyclerlist;
 
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.paging.DataSource;
-import android.support.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
+import androidx.paging.DataSource;
+import androidx.annotation.NonNull;
 
 public class ListDataSourceFactory<Key,Item> extends DataSource.Factory<Key, Item> {
 
