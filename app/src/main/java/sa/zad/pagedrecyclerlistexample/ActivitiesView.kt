@@ -1,10 +1,9 @@
 package sa.zad.pagedrecyclerlistexample
 
 import android.content.Context
-import androidx.constraintlayout.widget.ConstraintLayout
 import android.util.AttributeSet
-import android.util.Log
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import kotlinx.android.synthetic.main.list_item_activity_type.view.*
 import sa.zad.pagedrecyclerlist.AppListAdapter
 import sa.zad.pagedrecyclerlistexample.models.ActivityType
@@ -19,7 +18,6 @@ class ActivitiesView @JvmOverloads constructor(context: Context, attrs: Attribut
     }
 
     override fun bind(activityType: ActivityType) {
-        Log.d("afsdfasfd", activityType.activity)
         activity_name.text = activityType.activity
     }
 
