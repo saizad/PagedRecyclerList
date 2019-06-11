@@ -12,7 +12,7 @@ import sa.zad.pagedrecyclerlistexample.models.Items;
 
 import java.util.List;
 
-public class PagedKeyedListSample extends PagedKeyedList<Items, ItemsTitleView, String> {
+public class PagedKeyedListSample extends PagedKeyedList<Items, SubRedditNameView, String> {
 
   ApiService apiService;
 
@@ -40,6 +40,8 @@ public class PagedKeyedListSample extends PagedKeyedList<Items, ItemsTitleView, 
               .subscribe(redditPagedModel -> {
                 callBack.call(new PageKeyedListDataSource.KeyDataCallback<>(redditPagedModel.data.children, redditPagedModel.data.before, redditPagedModel.data.after));
               });
+
+
   }
 
   @Override
@@ -48,17 +50,17 @@ public class PagedKeyedListSample extends PagedKeyedList<Items, ItemsTitleView, 
   }
 
   @Override
-  public void selected(ItemsTitleView view, Items item, List<Items> selectedList) {
+  public void selected(SubRedditNameView view, Items item, List<Items> selectedList) {
 
   }
 
   @Override
-  public void unSelected(ItemsTitleView view, Items item, List<Items> selectedList) {
+  public void unSelected(SubRedditNameView view, Items item, List<Items> selectedList) {
 
   }
 
   @Override
-  public ItemsTitleView getSelectorItem(Context context, int viewType) {
-    return new ItemsTitleView(context, null, 0);
+  public SubRedditNameView getSelectorItem(Context context, int viewType) {
+    return new SubRedditNameView(context, null, 0);
   }
 }
