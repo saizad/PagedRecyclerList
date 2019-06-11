@@ -2,14 +2,15 @@ package sa.zad.pagedrecyclerlistexample
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import kotlinx.android.synthetic.main.list_item_view.view.*
 import sa.zad.pagedrecyclerlist.AppListAdapter
-import sa.zad.pagedrecyclerlistexample.models.ActivityType
+import sa.zad.pagedrecyclerlistexample.models.Items
 
-class ActivitiesView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
-    ConstraintLayout(context, attrs, defStyleAttr), AppListAdapter.AppAdapterItem<ActivityType> {
+class SubRedditNameView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
+    ConstraintLayout(context, attrs, defStyleAttr), AppListAdapter.AppAdapterItem<Items> {
 
     init {
         Utils.inflate(context, R.layout.list_item_view, this, true)
@@ -17,15 +18,19 @@ class ActivitiesView @JvmOverloads constructor(context: Context, attrs: Attribut
             ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 
-    override fun bind(activityType: ActivityType) {
-        content.text = activityType.activity
+    override fun bind(items: Items) {
+        content.text = items.data.subreddit
     }
 
     override fun hideDivider(hide: Boolean) {
-
+        if(hide){
+            divider.visibility = View.GONE
+        }else{
+            divider.visibility = View.VISIBLE
+        }
     }
 
-    override fun getItem(): ActivityType? {
+    override fun getItem(): Items? {
         return null
     }
 

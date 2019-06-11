@@ -122,6 +122,8 @@ public abstract class ListSelection<T, I extends View & AppListAdapter.AppAdapte
     final int foundItemIndex = compareItems(view.getItem());
     view.select(foundItemIndex != -1);
     view.hideDivider(getListAdapter().getItemCount() == 1);
+//    view.hideDivider(getListAdapter().getItemCount()-1 == itemIndex);
+
     return true;
   }
 
