@@ -3,6 +3,7 @@ package sa.zad.pagedrecyclerlist;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LifecycleOwner;
@@ -171,9 +172,9 @@ public class AppListAdapter<Item, LV extends View & AppListAdapter.AppAdapterIte
   }
 
   public interface RecyclerViewAdapterListener<Item, LV extends View & AppListAdapter.AppAdapterItem<Item>> {
-    LV getItemView(Context context, int viewType);
+    LV getItemView(@NonNull Context context, int viewType);
 
-    boolean onBindItemView(LV view, Item item, int itemIndex);
+    boolean onBindItemView(@NonNull LV view, @NonNull Item item, int itemIndex);
 
     /**
      * Return the view type of the item at pagePosition for the purposes of view recycling.
@@ -185,16 +186,20 @@ public class AppListAdapter<Item, LV extends View & AppListAdapter.AppAdapterIte
      * @param itemIndex pagePosition of item
      * @return if your are displaying different view types use this or just 0
      */
-    int preGetItemView(int itemIndex, Item item);
+    int preGetItemView(int itemIndex, @NonNull Item item);
   }
 
   public interface AppAdapterItem<Item> {
-    void bind(Item item);
+    void bind(@NonNull Item item);
 
-    void hideDivider(boolean hide);
+    void lastItem(boolean hide);
 
+    @NonNull
     Item getItem();
 
     void select(boolean select);
+
+    @NonNull
+    View selectionView();
   }
 }

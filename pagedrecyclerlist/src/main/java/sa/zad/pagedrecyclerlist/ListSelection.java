@@ -1,44 +1,49 @@
 package sa.zad.pagedrecyclerlist;
 
 import android.content.Context;
-import androidx.annotation.CallSuper;
-import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
+import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by Sa-ZAD on 2018-01-07.
  */
 
-public abstract class ListSelection<T, I extends View & AppListAdapter.AppAdapterItem<T>>
-    extends AppList<T, I> {
+public abstract class ListSelection<M, I extends View & AppListAdapter.AppAdapterItem<M>>
+        extends AppList<M, I> {
 
-  private boolean mSingleSelection;
+  private int selectionCount = 0;
 
-  private SelectedCountListener selectedCountListener = new SelectedCountListener() {
-    @Override
-    public void count(int count) {
+  private SelectedCountListener selectedCountListener = count -> {
 
-    }
   };
 
-  private List<T> mSelected = new ArrayList<>();
-  private ListSelectionListener<T> mListSelectorListener =
-      new ListSelectionListener<T>() {
-        @Override
-        public void selected(T item, List<T> selectedList) {
+  private ItemOnBindListener<M, I> itemOnBindListener = (item, itemView, index) -> {
+  };
 
-        }
+  private ItemOnClickListener<M, I> itemOnClickListener = (item, itemView, index) -> {
+  };
 
-        @Override
-        public void unSelected(T item, List<T> selectedList) {
 
-        }
-      };
+  private List<M> mSelected = new ArrayList<>();
+  private ListSelectionListener<M> mListSelectorListener =
+          new ListSelectionListener<M>() {
+            @Override
+            public void selected(@NonNull M item, @NonNull List<M> selectedList) {
+
+            }
+
+            @Override
+            public void unSelected(@NonNull M item, @NonNull List<M> selectedList) {
+
+            }
+          };
 
   public ListSelection(Context context) {
     this(context, null);
@@ -52,86 +57,111 @@ public abstract class ListSelection<T, I extends View & AppListAdapter.AppAdapte
     super(context, attrs, defStyle);
   }
 
-  final public void setSingleSelection(boolean singleSelection) {
-    mSingleSelection = singleSelection;
+  public int getCount() {
+    return selectionCount;
   }
 
-  final public void setSelectionListener(ListSelectionListener<T> listSelectorListener) {
+  /**
+   * call this method will reset selections
+   */
+  final public void setSelectionCount(int selectionCount) {
+    this.selectionCount = selectionCount;
+    removeAllSelected();
+  }
+
+  /**
+   * call this method will reset selections
+   */
+  final public void setMaxSelection() {
+    setSelectionCount(-1);
+  }
+
+  /**
+   * call this method will reset selections
+   */
+  final public void setSingleSelection() {
+    setSelectionCount(1);
+  }
+
+  final public void setSelectionListener(ListSelectionListener<M> listSelectorListener) {
     mListSelectorListener = listSelectorListener;
   }
 
-  final public void setSelectedCountListener(SelectedCountListener selectedCountListener){
+  final public void setSelectedCountListener(SelectedCountListener selectedCountListener) {
     this.selectedCountListener = selectedCountListener;
   }
 
-  @CallSuper
-  public void showSelectedItem(T item){
-    showSelectedItems(Collections.singletonList(item));
-  }
-
-  @CallSuper
-  public void showSelectedItems(List<T> items){
-    addSelectedItems(items);
-    getListAdapter().setItems(items);
-  }
-
-  public final void addSelectedItem(T item){
-    if(compareItems(item) == -1){
+  public final void addSelectedItem(M item) {
+    if (compareItems(item) == -1) {
       mSelected.add(item);
       selectedCountListener.count(mSelected.size());
     }
   }
 
-  public final void addSelectedItems(List<T> items){
-    for(T item: items){
-      if(compareItems(item) == -1){
-        mSelected.add(item);
-      }
+  public final void addSelectedItems(List<M> items) {
+    for (M item : items) {
+      addSelectedItem(item);
     }
-    selectedCountListener.count(mSelected.size());
+    getAdapter().notifyDataSetChanged();
   }
-  final public void removeSelectedItems(List<T> items) {
-    for (T item : items) {
+
+  final public void removeSelectedItems(List<M> items) {
+    for (M item : items) {
       removeSelectedItem(item);
     }
   }
 
-  final public void removeSelectedItem(T item){
-    final int foundItem = compareItems(item);
-    if(foundItem != -1){
-      itemUnSelected(item, foundItem);
+  final public void removeSelectedItem(M item) {
+    final int foundItemIndex = compareItems(item);
+    if (foundItemIndex != -1) {
+      mSelected.remove(foundItemIndex);
+      selectedCountListener.count(mSelected.size());
     }
   }
 
-  final public void removeAllSelected(){
-    removeSelectedItems(getSelected());
+  final public void removeAllSelected() {
+    mSelected.clear();
+    selectedCountListener.count(mSelected.size());
     getAdapter().notifyDataSetChanged();
   }
 
   @Override
   public final I getItemView(Context context, int viewType) {
-    final I selectorItem = getSelectorItem(context, viewType);
-    selectorItem.setOnClickListener(__ -> selection(selectorItem));
-    return selectorItem;
+    return getSelectorItem(context, viewType);
   }
 
   @CallSuper
   @Override
-  public boolean onBindItemView(I view, T item, int itemIndex) {
+  public boolean onBindItemView(I view, M item, int itemIndex) {
+    final View selectionView = view.selectionView();
+
+    if (selectionView == view) {
+      selectionView.setOnClickListener(__ -> {
+        selection(view);
+        itemOnClickListener.itemCall(view.getItem(), view, itemIndex);
+      });
+    } else {
+      selectionView.setOnClickListener(__ -> {
+        selection(view);
+      });
+      view.setOnClickListener(__ -> {
+        itemOnClickListener.itemCall(view.getItem(), view, itemIndex);
+      });
+    }
+
+    itemOnBindListener.itemCall(item, view, itemIndex);
     view.bind(item);
     final int foundItemIndex = compareItems(view.getItem());
     view.select(foundItemIndex != -1);
-//    view.hideDivider(getListAdapter().getItemCount() == 1);
-    view.hideDivider(getListAdapter().getItemCount()-1 == itemIndex);
-
+    view.lastItem(getListAdapter().getItemCount() - 1 == itemIndex);
     return true;
   }
 
-  final public List<T> getSelected() {
+  final public List<M> getSelected() {
     return mSelected;
   }
 
-  private int compareItems(T compareWith) {
+  private int compareItems(M compareWith) {
     for (int i = 0; i < mSelected.size(); i++) {
       if (compare(compareWith, mSelected.get(i))) {
         return i;
@@ -141,57 +171,77 @@ public abstract class ListSelection<T, I extends View & AppListAdapter.AppAdapte
   }
 
   final public void selection(I itemView) {
-    if(!isSelected(itemView.getItem()) && mSingleSelection){
-      removeAllSelected();
+    if (selectionCount == 0) {
+      return;
     }
-    final T item = itemView.getItem();
+
+    int count = selectionCount == -1 ? getListAdapter().getItemCount() : selectionCount;
+
+    final M item = itemView.getItem();
     final int foundItemIndex = compareItems(item);
     if (foundItemIndex != -1) {
-      itemUnSelected(item, foundItemIndex);
+      removeSelection(foundItemIndex);
       unSelected(itemView, item, mSelected);
-      itemView.select(false);
     } else {
-      itemSelected(item);
+      if (mSelected.size() >= count) {
+        //remove first selected item
+        removeSelection(0);
+      }
+      addSelection(item);
       selected(itemView, item, mSelected);
-      itemView.select(true);
     }
+    getListAdapter().notifyDataSetChanged();
     selectedCountListener.count(mSelected.size());
   }
 
-  public void showOnlySelected(){
-    getListAdapter().setItems(getSelected());
+  final public boolean isSelectionList() {
+    return selectionCount != 0;
   }
 
   final public boolean isSingleSelection() {
-    return mSingleSelection;
+    return selectionCount == 1;
   }
 
-  final public boolean isSelected(T item){
+  final public boolean isSelected(M item) {
     final int foundItemIndex = compareItems(item);
     return foundItemIndex != -1;
   }
 
-  private void itemSelected(T item) {
+  private void addSelection(M item) {
     mSelected.add(item);
     mListSelectorListener.selected(item, mSelected);
   }
 
-  private void itemUnSelected(T item, int foundItemIndex) {
-    mSelected.remove(foundItemIndex);
-    mListSelectorListener.unSelected(item, mSelected);
+  private void removeSelection(int foundItemIndex) {
+    final M remove = mSelected.remove(foundItemIndex);
+    mListSelectorListener.unSelected(remove, mSelected);
   }
 
-  public abstract boolean compare(T item1, T item2);
-  public abstract void selected(I view, T item, List<T> selectedList);
-  public abstract void unSelected(I view, T item, List<T> selectedList);
+  public void setItemOnBindListener(ItemOnBindListener<M, I> itemOnBindListener) {
+    this.itemOnBindListener = itemOnBindListener;
+  }
+
+  public void setItemOnClickListener(ItemOnClickListener<M, I> itemOnClickListener) {
+    this.itemOnClickListener = itemOnClickListener;
+  }
+
+  public abstract boolean compare(M item1, M item2);
+
+  public void selected(I view, M item, List<M> selectedList) {
+  }
+
+  public void unSelected(I view, M item, List<M> selectedList) {
+  }
+
   public abstract I getSelectorItem(Context context, int viewType);
 
   public interface ListSelectionListener<T> {
-    void selected(T item, List<T> selectedList);
-    void unSelected(T item, List<T> selectedList);
+    void selected(@NonNull T item, @NonNull List<T> selectedList);
+
+    void unSelected(@NonNull T item, @NonNull List<T> selectedList);
   }
 
-  public interface SelectedCountListener{
+  public interface SelectedCountListener {
     void count(int count);
   }
 }

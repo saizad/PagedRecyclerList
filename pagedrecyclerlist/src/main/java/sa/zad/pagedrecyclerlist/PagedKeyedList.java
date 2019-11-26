@@ -1,11 +1,14 @@
 package sa.zad.pagedrecyclerlist;
 
-import androidx.lifecycle.LifecycleOwner;
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.LifecycleOwner;
+
+import java.util.List;
 
 public abstract class PagedKeyedList<M, I extends View & AppListAdapter.AppAdapterItem<M>, Key> extends ListSelection<M, I> implements
         PageKeyedListDataSource.PageKeyedListDataSourceListener<Key, M> {
@@ -34,4 +37,8 @@ public abstract class PagedKeyedList<M, I extends View & AppListAdapter.AppAdapt
 
   @Override
   public abstract void getData(Key next, @NonNull CallAction<PageKeyedListDataSource.KeyDataCallback<M, Key>> callBack) ;
+
+  abstract protected List<M> data(PageKeyedListDataSource.KeyDataCallback<M, Key> keyDataCallback);
+  abstract protected Key previousPage(PageKeyedListDataSource.KeyDataCallback<M, Key> keyDataCallback);
+  abstract protected Key nextPage(PageKeyedListDataSource.KeyDataCallback<M, Key> keyDataCallback);
 }

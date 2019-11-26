@@ -7,26 +7,19 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
-
   <Button
           android:text="Simple List"
           android:layout_width="0dp"
           android:layout_height="wrap_content"
-          android:id="@+id/simple_list_sample" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="32dp"
+          android:id="@+id/simpleListSample" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="32dp"
           app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="32dp"
           app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="132dp"/>
   <Button
-          android:text="Page Key List"
+          android:text="Page List"
           android:layout_width="0dp"
           android:layout_height="wrap_content"
-          android:id="@+id/page_key_list_sample" app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="32dp"
+          android:id="@+id/pageKeyListSample" app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="32dp"
           app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="32dp"
-          app:layout_constraintTop_toBottomOf="@+id/simple_list_sample" android:layout_marginTop="32dp"/>
-  <Button
-          android:text="Item Key List"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:id="@+id/item_key_list_sample" app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="32dp"
-          app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="32dp"
-          app:layout_constraintTop_toBottomOf="@+id/page_key_list_sample" android:layout_marginTop="32dp"/>
+          app:layout_constraintTop_toBottomOf="@+id/simpleListSample" android:layout_marginTop="32dp"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

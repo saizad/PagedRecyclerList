@@ -1,10 +1,11 @@
 package sa.zad.pagedrecyclerlist;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * Created by Sa-ZAD on 2017-12-19.

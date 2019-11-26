@@ -20,9 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".PageKeyedListActivity"/>
+        <activity android:name=".PageListActivity" android:label="Page List"/>
         <activity android:name=".ItemKeyedListActivity"/>
-        <activity android:name=".SimpleListActivity"/>
+        <activity android:name=".SimpleListActivity" android:label="Simple List"/>
     </application>
 
 </manifest>

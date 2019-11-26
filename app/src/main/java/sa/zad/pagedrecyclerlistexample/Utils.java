@@ -1,11 +1,12 @@
 package sa.zad.pagedrecyclerlistexample;
 
 import android.content.Context;
-import androidx.annotation.LayoutRes;
-import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.LayoutRes;
+import androidx.annotation.Nullable;
 
 public class Utils {
 
@@ -23,5 +24,13 @@ public class Utils {
     LayoutInflater mInflater =
             (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     return mInflater.inflate(layoutRes, viewGroup, attachToRoot);
+  }
+
+  public static void switchVisibility(View view, boolean visible) {
+    if (visible) {
+      view.setVisibility(View.VISIBLE);
+    } else {
+      view.setVisibility(View.GONE);
+    }
   }
 }

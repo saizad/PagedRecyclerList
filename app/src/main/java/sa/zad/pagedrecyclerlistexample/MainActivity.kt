@@ -9,15 +9,11 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        item_key_list_sample.setOnClickListener {
-            startActivity(getActivityIntent(ItemKeyedListActivity::class.java, this))
+        pageKeyListSample.setOnClickListener {
+            startActivity(getActivityIntent(PageListActivity::class.java, this))
         }
 
-        page_key_list_sample.setOnClickListener {
-            startActivity(getActivityIntent(PageKeyedListActivity::class.java, this))
-        }
-
-        simple_list_sample.setOnClickListener {
+        simpleListSample.setOnClickListener {
             startActivity(getActivityIntent(SimpleListActivity::class.java, this))
         }
     }
