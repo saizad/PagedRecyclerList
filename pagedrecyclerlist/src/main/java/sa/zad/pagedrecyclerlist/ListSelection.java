@@ -2,6 +2,8 @@ package sa.zad.pagedrecyclerlist;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.CallSuper;
@@ -30,6 +32,8 @@ public abstract class ListSelection<M, I extends View & AppListAdapter.AppAdapte
   private ItemOnClickListener<M, I> itemOnClickListener = (item, itemView, index) -> {
   };
 
+
+  private ItemDoubleTapListener<M, I> itemDoubleTapListener = (item, itemView, itemIndex) -> false;
 
   private List<M> mSelected = new ArrayList<>();
   private ListSelectionListener<M> mListSelectorListener =
@@ -130,6 +134,23 @@ public abstract class ListSelection<M, I extends View & AppListAdapter.AppAdapte
     return getSelectorItem(context, viewType);
   }
 
+  private void setDoubleTap(I view, int itemIndex){
+    view.setOnTouchListener(new OnTouchListener() {
+      private GestureDetector gestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener(){
+        @Override
+        public boolean onDoubleTap(MotionEvent e) {
+          return itemDoubleTapListener.itemCall(view.getItem(), view, itemIndex);
+        }
+      });
+
+      @Override
+      public boolean onTouch(View v, MotionEvent event) {
+        final boolean b = gestureDetector.onTouchEvent(event);
+        return true;
+      }
+    });
+  }
+
   @CallSuper
   @Override
   public boolean onBindItemView(I view, M item, int itemIndex) {
@@ -147,6 +168,7 @@ public abstract class ListSelection<M, I extends View & AppListAdapter.AppAdapte
       view.setOnClickListener(__ -> {
         itemOnClickListener.itemCall(view.getItem(), view, itemIndex);
       });
+      setDoubleTap(view, itemIndex);
     }
 
     itemOnBindListener.itemCall(item, view, itemIndex);
@@ -223,6 +245,10 @@ public abstract class ListSelection<M, I extends View & AppListAdapter.AppAdapte
 
   public void setItemOnClickListener(ItemOnClickListener<M, I> itemOnClickListener) {
     this.itemOnClickListener = itemOnClickListener;
+  }
+
+  public void setItemDoubleTapListener(ItemDoubleTapListener<M, I> itemDoubleTapListener) {
+    this.itemDoubleTapListener = itemDoubleTapListener;
   }
 
   public abstract boolean compare(M item1, M item2);

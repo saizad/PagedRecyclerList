@@ -52,6 +52,11 @@ abstract class ListExampleActivity : BaseActivity() {
                 }
             }
         }
+
+        list.setItemDoubleTapListener { item, itemView, itemIndex ->
+            toast(item.data.url)
+            return@setItemDoubleTapListener true
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
