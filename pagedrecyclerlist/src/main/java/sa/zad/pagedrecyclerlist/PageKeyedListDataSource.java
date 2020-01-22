@@ -32,13 +32,14 @@ public class PageKeyedListDataSource<Key, Item> extends PageKeyedDataSource<Key,
   @Override
   public void loadBefore(@NonNull LoadParams<Key> params,
                          @NonNull LoadCallback<Key, Item> callback) {
-    pageKeyedListDataSourceListener.getData(params.key, p -> {
+    pageKeyedListDataSourceListener.getPrevData(params.key, p -> {
       callback.onResult(p.data, p.previousPage);
     });
   }
 
   public interface PageKeyedListDataSourceListener<Key, Item> {
     void getData(Key next, @NonNull CallAction<KeyDataCallback<Item, Key>> callBack);
+    void getPrevData(Key prev, @NonNull CallAction<KeyDataCallback<Item, Key>> callBack);
   }
 
   public static class KeyDataCallback<Item, Key> {

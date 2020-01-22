@@ -1,16 +1,18 @@
 package sa.zad.pagedrecyclerlistexample;
 
-import androidx.lifecycle.LifecycleOwner;
 import android.content.Context;
+import android.util.AttributeSet;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import android.util.AttributeSet;
+import androidx.lifecycle.LifecycleOwner;
+
+import java.util.List;
+
 import sa.zad.pagedrecyclerlist.CallAction;
 import sa.zad.pagedrecyclerlist.PageKeyedListDataSource;
 import sa.zad.pagedrecyclerlist.PagedKeyedList;
 import sa.zad.pagedrecyclerlistexample.models.Items;
-
-import java.util.List;
 
 public class PagedKeyedListSample extends PagedKeyedList<Items, SubRedditNameView, String> {
 
@@ -40,8 +42,6 @@ public class PagedKeyedListSample extends PagedKeyedList<Items, SubRedditNameVie
               .subscribe(redditPagedModel -> {
                 callBack.call(new PageKeyedListDataSource.KeyDataCallback<>(redditPagedModel.data.children, redditPagedModel.data.before, redditPagedModel.data.after));
               });
-
-
   }
 
   @Override
