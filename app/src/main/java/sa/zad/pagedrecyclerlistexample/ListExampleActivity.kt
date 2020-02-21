@@ -7,6 +7,7 @@ import androidx.annotation.CallSuper
 import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.activity_example_list.*
 import sa.zad.pagedrecyclerlistexample.models.Items
+import kotlin.math.min
 
 abstract class ListExampleActivity : BaseActivity() {
     private var selectionOption: MenuItem? = null
@@ -52,11 +53,6 @@ abstract class ListExampleActivity : BaseActivity() {
                 }
             }
         }
-
-        list.setItemDoubleTapListener { item, itemView, itemIndex ->
-            toast(item.data.url)
-            return@setItemDoubleTapListener true
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -69,7 +65,9 @@ abstract class ListExampleActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.options) {
             ListOptionDialog(this).show(count())
-                .observe(this, Observer<Int> { this.countSelected(it) })
+                .observe(this, Observer {
+                    this.countSelected(it.first, it.second)
+                })
         } else if (item.itemId == android.R.id.home) {
             finish()
         }
@@ -80,9 +78,17 @@ abstract class ListExampleActivity : BaseActivity() {
         return list.count
     }
 
-    fun countSelected(count: Int) {
+    fun countSelected(count: Int, randomSelect: Boolean = false) {
         updateSelectionCount(0)
-        list.setSelectionCount(count)
+        if (randomSelect) {
+            list.setSelectionCount(count)
+            val items = list.listAdapter.items
+            if (items.isNotEmpty() && count >= 0) {
+                list.addSelectedItems(items.subList(0, min(items.size, count)))
+            }
+        } else {
+            list.setSelectionCount(count)
+        }
     }
 
     protected fun updateSelectionCount(count: Int) {

@@ -151,7 +151,7 @@ public class AppListAdapter<Item, LV extends View & AppListAdapter.AppAdapterIte
   }
 
   public boolean isNotPagedList() {
-    return Utils.isNull(getCurrentList()) || getCurrentList().isEmpty();
+    return getCurrentList() == null || getCurrentList().isEmpty();
   }
 
   public List<Item> getItems() {

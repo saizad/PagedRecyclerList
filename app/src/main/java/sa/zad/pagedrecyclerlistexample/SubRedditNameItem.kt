@@ -14,8 +14,10 @@ class SubRedditNameItem @JvmOverloads constructor(context: Context, attrs: Attri
     public var isFav = false
 
     init {
-        layoutParams = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT)
+        layoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
     }
 
     override fun bind(items: Items) {

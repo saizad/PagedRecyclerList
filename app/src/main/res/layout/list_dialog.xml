@@ -92,4 +92,13 @@
           app:layout_constraintBottom_toBottomOf="parent"
           app:layout_constraintEnd_toStartOf="@+id/doneButton"
           app:layout_constraintTop_toBottomOf="@+id/customCount" />
+
+  <CheckBox
+          android:id="@+id/selectItemCheckBox"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Select Items"
+          app:layout_constraintBottom_toBottomOf="@+id/resetButton"
+          app:layout_constraintStart_toStartOf="@+id/customCount"
+          app:layout_constraintTop_toTopOf="@+id/resetButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>

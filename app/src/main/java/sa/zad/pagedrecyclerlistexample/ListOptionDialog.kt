@@ -3,13 +3,12 @@ package sa.zad.pagedrecyclerlistexample
 import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.android.synthetic.main.list_dialog.*
 
 class ListOptionDialog(context: Context) : BaseDialog(context, R.layout.list_dialog) {
 
-    private val mutableLiveData: MutableLiveData<Int> = MutableLiveData()
+    private val mutableLiveData: MutableLiveData<Pair<Int, Boolean>> = MutableLiveData()
     private var ogCount: Int = 0
 
     init {
@@ -42,14 +41,16 @@ class ListOptionDialog(context: Context) : BaseDialog(context, R.layout.list_dia
 
             resetButton.setOnClickListener {
                 ogCount = 0
-                mutableLiveData.value = ogCount
+                mutableLiveData.value = Pair(ogCount, selectItemCheckBox.isChecked)
                 dismiss()
             }
 
             doneButton.setOnClickListener {
-                mutableLiveData.value = ogCount
+                mutableLiveData.value = Pair(ogCount, selectItemCheckBox.isChecked)
                 dismiss()
             }
+
+
 
             customCount.addTextChangedListener(object : TextWatcher{
                 override fun afterTextChanged(s: Editable?) {
@@ -65,7 +66,6 @@ class ListOptionDialog(context: Context) : BaseDialog(context, R.layout.list_dia
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     if(s != null && s.isNotEmpty()) {
-//                        radioGroup.clearCheck()
                         ogCount = s.toString().toInt()
                     }
                 }
@@ -77,7 +77,7 @@ class ListOptionDialog(context: Context) : BaseDialog(context, R.layout.list_dia
         customCount.text = null
     }
 
-    fun show(count: Int): LiveData<Int> {
+    fun show(count: Int): MutableLiveData<Pair<Int, Boolean>> {
         ogCount = count
         super.show()
         return mutableLiveData
