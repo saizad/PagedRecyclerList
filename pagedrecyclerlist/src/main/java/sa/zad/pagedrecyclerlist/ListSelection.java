@@ -150,8 +150,10 @@ public abstract class ListSelection<M, I extends View & AppListAdapter.AppAdapte
 
     itemOnBindListener.itemCall(item, view, itemIndex);
     view.bind(item);
-    final int foundItemIndex = compareSelectedItems(view.getItem());
-    view.select(foundItemIndex != -1);
+    if(isSelectionList()) {
+      final int foundItemIndex = compareSelectedItems(view.getItem());
+      view.select(foundItemIndex != -1);
+    }
     view.lastItem(getListAdapter().getItemCount() - 1 == itemIndex);
     return true;
   }
