@@ -38,7 +38,8 @@ abstract class ListExampleActivity : BaseActivity() {
             toast(item.data.subreddit)
         }
 
-        list.setItemOptionSelectedListener { selected, item, view ->
+        list.setItemOptionSelectedListener { selected, item, view, payload ->
+            val listAdapter = list.listAdapter
             when (selected) {
                 SubRedditNameList.FAV_OPTION -> {
                     val find = favSubRedditList.find {
@@ -49,10 +50,19 @@ abstract class ListExampleActivity : BaseActivity() {
                     } else {
                         favSubRedditList.add(item)
                     }
-                    list.listAdapter.notifyItemChanged(view.itemIndex)
+                    listAdapter.notifyItemChanged(listAdapter.items.indexOf(item))
+                }
+                SubRedditNameList.DELETE_ITEM_OPTION -> {
+                    val itemAt = listAdapter.items.find {
+                        it.areItemsTheSame(it, view.item)
+                    }
+                    val indexOf = listAdapter.items.indexOf(itemAt)
+                    listAdapter.items.removeAt(indexOf)
+                    listAdapter.notifyItemRemoved(indexOf)
                 }
             }
         }
+        loadList()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -70,6 +80,8 @@ abstract class ListExampleActivity : BaseActivity() {
                 })
         } else if (item.itemId == android.R.id.home) {
             finish()
+        } else if(item.itemId == R.id.refresh){
+            loadList()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -90,6 +102,8 @@ abstract class ListExampleActivity : BaseActivity() {
             list.setSelectionCount(count)
         }
     }
+
+    abstract fun loadList()
 
     protected fun updateSelectionCount(count: Int) {
         CountDrawable.setCount(this, selectionOption!!.icon, count)

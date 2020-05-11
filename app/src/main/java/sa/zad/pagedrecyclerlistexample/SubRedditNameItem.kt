@@ -22,12 +22,17 @@ class SubRedditNameItem @JvmOverloads constructor(context: Context, attrs: Attri
 
     override fun bind(items: Items) {
         super.bind(items)
-        content.text = items.data.subreddit
+        commentCount.text = items.data.numComments.toString()
+        content.text = (1..100).random().toString() + " " + items.data.subreddit
         favImageView.isSelected = isFav
         Utils.switchVisibility(selectImageView, isSelectMode)
 
         favImageView.setOnClickListener {
             callOption(SubRedditNameList.FAV_OPTION)
+        }
+
+        deleteItem.setOnClickListener {
+            callOption(SubRedditNameList.DELETE_ITEM_OPTION)
         }
     }
 

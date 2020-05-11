@@ -1,14 +1,38 @@
 package sa.zad.pagedrecyclerlistexample.models;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Items {
+import sa.zad.pagedrecyclerlist.AppListAdapter;
+
+public class Items implements AppListAdapter.CompareItem<Items> {
     @SerializedName("kind")
     public String kind;
     @SerializedName("data")
     public Data data;
+
+    @Override
+    public boolean areItemsTheSame(@NonNull Items oldItem, @NonNull Items newItem) {
+        return oldItem.data.id.equals(newItem.data.id);
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if(obj instanceof Items){
+            return ((Items) obj).data.numComments == data.numComments;
+        }
+        return false;
+    }
+
+    @Nullable
+    @Override
+    public Object getChangePayload(@NonNull Items oldItem, @NonNull Items newItem) {
+        return null;
+    }
 
     public static class LinkFlairRichtext {
     }

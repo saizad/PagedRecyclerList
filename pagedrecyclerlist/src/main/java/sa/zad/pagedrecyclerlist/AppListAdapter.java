@@ -118,7 +118,7 @@ public class AppListAdapter<Item, LV extends View & AppListAdapter.AppAdapterIte
   public void clear() {
     if (isNotPagedList()) {
       getItems().clear();
-      notifyDataSetChanged();
+      setItems(getItems());
     }
   }
 
@@ -163,11 +163,10 @@ public class AppListAdapter<Item, LV extends View & AppListAdapter.AppAdapterIte
 
   public void setItems(@NonNull List<Item> items) {
     if (isNotPagedList()) {
-      //converting to list from PagedList
-      mItems = new ArrayList<>();
-      //keep the same ref
+      DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffCallback<>(items, getItems()));
+      diffResult.dispatchUpdatesTo(this);
+      getItems().clear();
       getItems().addAll(items);
-      notifyDataSetChanged();
     }
   }
 
@@ -201,5 +200,13 @@ public class AppListAdapter<Item, LV extends View & AppListAdapter.AppAdapterIte
 
     @NonNull
     View selectionView();
+  }
+
+  public interface CompareItem<Item> {
+
+    boolean areItemsTheSame(@NonNull Item oldItem, @NonNull Item newItem);
+
+    @Nullable
+    Object getChangePayload(@NonNull Item oldItem, @NonNull Item newItem);
   }
 }

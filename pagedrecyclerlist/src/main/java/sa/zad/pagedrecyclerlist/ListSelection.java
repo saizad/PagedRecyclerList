@@ -121,17 +121,17 @@ public abstract class ListSelection<M, I extends View & AppListAdapter.AppAdapte
   final public void removeAllSelected() {
     mSelected.clear();
     selectedCountListener.count(mSelected.size());
-    getAdapter().notifyDataSetChanged();
+    getListAdapter().notifyDataSetChanged();
   }
 
   @Override
-  public final I getItemView(Context context, int viewType) {
+  public final I getItemView(@NonNull Context context, int viewType) {
     return getSelectorItem(context, viewType);
   }
 
   @CallSuper
   @Override
-  public boolean onBindItemView(I view, M item, int itemIndex) {
+  public boolean onBindItemView(@NonNull I view, @NonNull M item, int itemIndex) {
     final View selectionView = view.selectionView();
 
     if (selectionView == view) {
@@ -191,7 +191,7 @@ public abstract class ListSelection<M, I extends View & AppListAdapter.AppAdapte
       addSelection(item);
       selected(itemView, item, mSelected);
     }
-    getListAdapter().notifyDataSetChanged();
+    getListAdapter().notifyItemChanged(getListAdapter().getItems().indexOf(item));
     selectedCountListener.count(mSelected.size());
   }
 

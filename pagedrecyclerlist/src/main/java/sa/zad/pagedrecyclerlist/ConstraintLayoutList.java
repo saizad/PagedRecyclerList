@@ -17,7 +17,7 @@ abstract public class ConstraintLayoutList<M, I extends ConstraintLayoutItem<M>,
 
   protected CallbackPageKeyedList<M, K> callbackPageKeyedList;
 
-  private ItemOptionSelected<M, I> itemOptionSelectedListener = (selected, item, view) -> {
+  private ItemOptionSelected<M, I> itemOptionSelectedListener = (selected, item, view, payload) -> {
   };
 
   public ConstraintLayoutList(Context context) {
@@ -33,7 +33,8 @@ abstract public class ConstraintLayoutList<M, I extends ConstraintLayoutItem<M>,
   }
 
   @Override
-  public boolean onBindItemView(I view, M item, int itemIndex) {
+  public boolean onBindItemView(@NonNull I view, @NonNull M item, int itemIndex) {
+    //Todo Index will lost integrity if notifyItemRemoved or notifyItemInserted is called
     view.setItemIndex(itemIndex);
     view.setItemOptionSelectedListener(itemOptionSelectedListener);
     view.isSelectMode = isSelectionList();
@@ -92,7 +93,7 @@ abstract public class ConstraintLayoutList<M, I extends ConstraintLayoutItem<M>,
   }
 
   public interface ItemOptionSelected<M, I extends View & AppListAdapter.AppAdapterItem<M>> {
-    void selected(int selected, M item, I view);
+    void selected(int selected, M item, I view, Object payload);
   }
 
   public interface CallBack<T> {

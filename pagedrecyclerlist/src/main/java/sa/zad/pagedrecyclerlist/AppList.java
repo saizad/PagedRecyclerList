@@ -16,17 +16,17 @@ public class AppList<T, I extends View & AppListAdapter.AppAdapterItem<T>> exten
 
     private AppListAdapter.RecyclerViewAdapterListener<T, I> mAdapterListener = new AppListAdapter.RecyclerViewAdapterListener<T, I>() {
         @Override
-        public I getItemView(Context context, int viewType) {
+        public I getItemView(@NonNull Context context, int viewType) {
             return null;
         }
 
         @Override
-        public boolean onBindItemView(I view, T item, int itemIndex) {
+        public boolean onBindItemView(@NonNull I view, @NonNull T item, int itemIndex) {
             return false;
         }
 
         @Override
-        public int preGetItemView(int itemIndex, T item) {
+        public int preGetItemView(int itemIndex, @NonNull T item) {
             return 0;
         }
     };
@@ -49,17 +49,17 @@ public class AppList<T, I extends View & AppListAdapter.AppAdapterItem<T>> exten
     }
 
     @Override
-    public I getItemView(Context context, int viewType) {
+    public I getItemView(@NonNull Context context, int viewType) {
         return mAdapterListener.getItemView(context, viewType);
     }
 
     @Override
-    public boolean onBindItemView(I view, T item, int itemIndex) {
+    public boolean onBindItemView(@NonNull I view, @NonNull T item, int itemIndex) {
         return mAdapterListener.onBindItemView(view, item, itemIndex);
     }
 
     @Override
-    public int preGetItemView(int itemIndex, T item) {
+    public int preGetItemView(int itemIndex, @NonNull T item) {
         return mAdapterListener.preGetItemView(itemIndex, item);
     }
 }

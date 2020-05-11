@@ -10,7 +10,8 @@ import sa.zad.pagedrecyclerlistexample.models.Items;
 
 public class SubRedditNameList extends ConstraintLayoutList<Items, SubRedditNameItem, String> {
 
-  public static final int FAV_OPTION = 463;
+  public static final int FAV_OPTION = 100;
+  public static final int DELETE_ITEM_OPTION = 200;
 
   public SubRedditNameList(Context context) {
     super(context);
