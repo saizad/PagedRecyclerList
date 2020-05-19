@@ -1,11 +1,11 @@
 package sa.zad.pagedrecyclerlist;
 
 import android.content.Context;
+import android.util.AttributeSet;
+
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.util.AttributeSet;
-import android.view.View;
 
 /**
  * Created by Sa-ZAD on 2017-11-27.
@@ -27,8 +27,6 @@ public class AppRecyclerViewList<T> extends RecyclerView {
     super(context, attrs, defStyle);
     setLayoutManager(new LinearLayoutManager(context));
     setDrawingCacheEnabled(true);
-    setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_LOW);
-    setItemViewCacheSize(10);
   }
 
   public void setListAdapter(T adapter) {

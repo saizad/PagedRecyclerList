@@ -34,6 +34,11 @@ public class Items implements AppListAdapter.CompareItem<Items> {
         return null;
     }
 
+    @Override
+    public boolean areContentsTheSame(@NonNull Items oldItem, @NonNull Items newItem) {
+        return oldItem.equals(newItem);
+    }
+
     public static class LinkFlairRichtext {
     }
 

@@ -34,12 +34,17 @@ class DiffCallback<Item> extends DiffUtil.Callback {
     if (oldItem instanceof AppListAdapter.CompareItem) {
       return ((AppListAdapter.CompareItem) oldItem).areItemsTheSame(oldItem, newItem);
     }
-    return false;
+    return oldItem.equals(newItem);
   }
 
   @Override
   public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-    return oldList.get(oldItemPosition).equals(newList.get(newItemPosition));
+    final Item oldItem = oldList.get(oldItemPosition);
+    final Item newItem = newList.get(newItemPosition);
+    if (oldItem instanceof AppListAdapter.CompareItem) {
+      return ((AppListAdapter.CompareItem) oldItem).areContentsTheSame(oldItem, newItem);
+    }
+    return  oldItem.equals(newItem);
   }
 
   @Nullable

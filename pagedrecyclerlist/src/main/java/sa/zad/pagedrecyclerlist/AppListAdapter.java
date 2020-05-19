@@ -208,5 +208,7 @@ public class AppListAdapter<Item, LV extends View & AppListAdapter.AppAdapterIte
 
     @Nullable
     Object getChangePayload(@NonNull Item oldItem, @NonNull Item newItem);
+
+     boolean areContentsTheSame(@NonNull Item oldItem, @NonNull Item newItem);
   }
 }
