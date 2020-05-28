@@ -235,6 +235,7 @@ public abstract class ListSelection<M, I extends View & AppListAdapter.AppAdapte
   private void removeSelection(int foundItemIndex) {
     final M remove = mSelected.remove(foundItemIndex);
     mListSelectorListener.unSelected(remove, mSelected);
+    getListAdapter().notifyItemChanged(getListAdapter().getItems().indexOf(remove));
   }
 
   public void setItemOnBindListener(ItemOnBindListener<M, I> itemOnBindListener) {
