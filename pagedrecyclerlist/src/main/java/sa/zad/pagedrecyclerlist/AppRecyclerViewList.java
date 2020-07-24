@@ -13,28 +13,28 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class AppRecyclerViewList<T> extends RecyclerView {
 
-  private T mListAdapter;
+    private T mListAdapter;
 
-  public AppRecyclerViewList(Context context) {
-    this(context, null);
-  }
+    public AppRecyclerViewList(Context context) {
+        this(context, null);
+    }
 
-  public AppRecyclerViewList(Context context, @Nullable AttributeSet attrs) {
-    this(context, attrs, 0);
-  }
+    public AppRecyclerViewList(Context context, @Nullable AttributeSet attrs) {
+        this(context, attrs, 0);
+    }
 
-  public AppRecyclerViewList(final Context context, @Nullable AttributeSet attrs, int defStyle) {
-    super(context, attrs, defStyle);
-    setLayoutManager(new LinearLayoutManager(context));
-    setDrawingCacheEnabled(true);
-  }
+    public AppRecyclerViewList(final Context context, @Nullable AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        setLayoutManager(new LinearLayoutManager(context));
+        setDrawingCacheEnabled(true);
+    }
 
-  public void setListAdapter(T adapter) {
-    super.setAdapter((Adapter) adapter);
-    mListAdapter = adapter;
-  }
+    public T getListAdapter() {
+        return mListAdapter;
+    }
 
-  public T getListAdapter() {
-    return mListAdapter;
-  }
+    public void setListAdapter(T adapter) {
+        super.setAdapter((Adapter) adapter);
+        mListAdapter = adapter;
+    }
 }

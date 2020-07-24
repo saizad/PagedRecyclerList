@@ -14,16 +14,20 @@ class ListOptionDialog(context: Context) : BaseDialog(context, R.layout.list_dia
     init {
         setOnShowListener {
 
-            if(ogCount == -1){
-                allSelection.isChecked = true
-            }else if(ogCount == 0){
-                removeCustomCount()
-                radioGroup.clearCheck()
-            }else if(ogCount == 1){
-                radioGroup.check(singleSelection.id)
-            }
-            else{
-                customCount.setText(ogCount.toString())
+            when (ogCount) {
+                -1 -> {
+                    allSelection.isChecked = true
+                }
+                0 -> {
+                    removeCustomCount()
+                    radioGroup.clearCheck()
+                }
+                1 -> {
+                    radioGroup.check(singleSelection.id)
+                }
+                else -> {
+                    customCount.setText(ogCount.toString())
+                }
             }
 
             radioGroup.setOnCheckedChangeListener { group, checkedId ->

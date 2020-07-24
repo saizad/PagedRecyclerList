@@ -13,7 +13,7 @@ class SimpleListActivity : ListExampleActivity() {
 
     override fun loadList(){
         loadingDialog.show()
-        apiService.list("https://www.reddit.com/r/all.json?limit=100")
+        apiService.list("https://www.reddit.com/r/all.json?limit=5")
             .exception {
                 log(it.message)
             }

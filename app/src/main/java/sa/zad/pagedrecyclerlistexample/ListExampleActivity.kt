@@ -3,6 +3,7 @@ package sa.zad.pagedrecyclerlistexample
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.CheckBox
 import androidx.annotation.CallSuper
 import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.activity_example_list.*
@@ -69,6 +70,10 @@ abstract class ListExampleActivity : BaseActivity() {
         val inflater = menuInflater
         inflater.inflate(R.menu.list_menu, menu)
         selectionOption = menu.findItem(R.id.options)
+        val checkBox = menu.findItem(R.id.reselect).actionView as CheckBox
+        checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
+            list.radioSelection = isChecked
+        }
         return true
     }
 
@@ -93,13 +98,13 @@ abstract class ListExampleActivity : BaseActivity() {
     fun countSelected(count: Int, randomSelect: Boolean = false) {
         updateSelectionCount(0)
         if (randomSelect) {
-            list.setSelectionCount(count)
+            list.setSelectionCount(count, count == 1)
             val items = list.listAdapter.items
             if (items.isNotEmpty() && count >= 0) {
                 list.addSelectedItems(items.subList(0, min(items.size, count)))
             }
         } else {
-            list.setSelectionCount(count)
+            list.setSelectionCount(count, count == 1)
         }
     }
 

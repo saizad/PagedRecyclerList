@@ -14,4 +14,11 @@
           android:id="@+id/refresh"
           android:title="Refresh" />
 
+  <item
+          android:id="@+id/reselect"
+          android:checkable="true"
+          android:title="Allow Reselect"
+          app:actionViewClass="android.widget.CheckBox"
+          app:showAsAction="ifRoom|withText" />
+
 </menu>
