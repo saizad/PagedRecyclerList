@@ -170,6 +170,7 @@ public abstract class ListSelection<M, I extends View & AppListAdapter.AppAdapte
             final int foundItemIndex = compareSelectedItems(view.getItem());
             view.select(foundItemIndex != NOT_FOUND);
         }
+
         view.lastItem(getListAdapter().getItemCount() - 1 == itemIndex);
         return true;
     }

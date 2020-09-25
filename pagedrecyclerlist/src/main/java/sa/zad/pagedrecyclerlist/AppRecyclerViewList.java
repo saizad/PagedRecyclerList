@@ -26,7 +26,7 @@ public class AppRecyclerViewList<T> extends RecyclerView {
     public AppRecyclerViewList(final Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         if(getLayoutManager() == null) {
-            setLayoutManager(new LinearLayoutManager(context));
+            setLayoutManager(new LinearLayoutManager(context, attrs, 0, 0));
         }
     }
 
