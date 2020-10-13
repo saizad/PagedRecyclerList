@@ -46,7 +46,7 @@ abstract public class ConstraintLayoutList<M, I extends ConstraintLayoutItem<M>,
     }
 
     @Override
-    public boolean compare(M item1, M item2) {
+    public boolean compare(@NonNull M item1, @NonNull M item2) {
         return false;
     }
 

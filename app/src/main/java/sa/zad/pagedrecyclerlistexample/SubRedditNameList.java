@@ -3,6 +3,7 @@ package sa.zad.pagedrecyclerlistexample;
 import android.content.Context;
 import android.util.AttributeSet;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import sa.zad.pagedrecyclerlist.ConstraintLayoutList;
@@ -31,7 +32,7 @@ public class SubRedditNameList extends ConstraintLayoutList<Items, SubRedditName
   }
 
   @Override
-  public boolean compare(Items item1, Items item2) {
+  public boolean compare(@NonNull Items item1, @NonNull Items item2) {
     return item1.data.id.equalsIgnoreCase(item2.data.id);
   }
 }
